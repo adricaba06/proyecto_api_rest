@@ -2,9 +2,11 @@ package com.salesianostriana.dam.adrianCaballeroTorrebejano.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -23,12 +25,16 @@ public class Pelicula {
     private LocalDate fechaEstreno;
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "actores_peliculas",
-            joinColumns = @JoinColumn(name="pelicula_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+            joinColumns = @JoinColumn(name="pelicula_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id")
     )
-    private List<Actor> actores;
+    private Set<Actor> actores;
+
+    @ManyToOne
+    @JoinTable(name = "directror_id")
+    private Director director;
 
 }
 

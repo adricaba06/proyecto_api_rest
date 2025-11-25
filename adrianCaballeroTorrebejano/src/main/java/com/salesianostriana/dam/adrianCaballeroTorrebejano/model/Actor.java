@@ -22,7 +22,7 @@ public class Actor {
 
     private String nombre;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "actores")
     private List<Pelicula> peliculas;
 
 

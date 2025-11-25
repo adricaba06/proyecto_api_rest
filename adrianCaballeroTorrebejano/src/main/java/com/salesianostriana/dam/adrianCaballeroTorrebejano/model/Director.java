@@ -4,7 +4,11 @@ package com.salesianostriana.dam.adrianCaballeroTorrebejano.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -20,5 +24,8 @@ public class Director {
 
     private String nombre;
     private int anioNacieminto;
+
+    @OneToMany(mappedBy = "director")
+    private Set<Pelicula> peliculas;
 
 }
