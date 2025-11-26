@@ -2,7 +2,6 @@ package com.salesianostriana.dam.adrianCaballeroTorrebejano.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -31,8 +30,8 @@ public class GlobarErrorHandler {
         return result;
     }
 
-    @ExceptionHandler(ActorYaEnRepartoException.class)
-    public ProblemDetail handleActorYaEnReparto(ActorYaEnRepartoException ex){
+    @ExceptionHandler(ActorAlreadyInCastException.class)
+    public ProblemDetail handleActorAlreadyInCastException(ActorAlreadyInCastException ex){
         ProblemDetail result = ProblemDetail
                 .forStatusAndDetail(HttpStatus.CONFLICT,
                         ex.getMessage());
@@ -41,7 +40,13 @@ public class GlobarErrorHandler {
     }
 
     @ExceptionHandler(DirectorIsAMinorException.class)
-    public ProblemDetail handleDirectorIsAMinor()
+    public ProblemDetail handleDirectorIsAMinor(DirectorIsAMinorException ex){
+        ProblemDetail result = ProblemDetail
+                .forStatusAndDetail(HttpStatus.CONFLICT,
+                        ex.getMessage());
+        result.setTitle("El director es menor");
+        return result;
+    }
 
 
 

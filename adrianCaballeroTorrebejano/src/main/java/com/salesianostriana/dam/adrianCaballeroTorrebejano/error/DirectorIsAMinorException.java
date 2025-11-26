@@ -9,7 +9,7 @@ public class DirectorIsAMinorException extends RuntimeException {
       super("El director es menor");
     }
 
-  public DirectorIsAMinorException(Long id){
+    public DirectorIsAMinorException(Long id){
     super("El director con este id: %d es menor".formatted(id));
   }
 

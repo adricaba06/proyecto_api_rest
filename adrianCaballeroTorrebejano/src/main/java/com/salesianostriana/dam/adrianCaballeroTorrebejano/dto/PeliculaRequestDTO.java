@@ -1,25 +1,18 @@
 package com.salesianostriana.dam.adrianCaballeroTorrebejano.dto;
 
-import com.salesianostriana.dam.adrianCaballeroTorrebejano.model.Pelicula;
-
 import java.time.LocalDate;
+import java.util.Set;
 
 public record PeliculaRequestDTO( //createDTO
-         String titulo,
-         String genero,
-         LocalDate fechaEstreno
+                                  String titulo,
+                                  String genero,
+                                  LocalDate fechaEstreno,
+                                  Set<Long> actoresId,
+                                  Long directorId
 ) {
 
-    public Pelicula toEntity(){
-        return Pelicula.builder()
-                .titulo(this.titulo)
-                .genero(this.genero)
-                .fechaEstreno(this.fechaEstreno)
-                .build();
-
-    }
-
     //Si necesita datos externos al dto mejot hacer la transformarcion en el servicio
+
 
 }
 
