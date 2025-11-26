@@ -36,7 +36,11 @@ public class PeliculaService {
         ){
             throw  new IllegalArgumentException("No se puedo crear Pelicula");
         }
-        return
+        return peliculaRepository.save(cmd.toEntity());
+    }
+
+    public Pelicula editPelicula(PeliculaRequestDTO cmd){ // usuario --> (dto --> entidad) --> bd
+
     }
 
 
