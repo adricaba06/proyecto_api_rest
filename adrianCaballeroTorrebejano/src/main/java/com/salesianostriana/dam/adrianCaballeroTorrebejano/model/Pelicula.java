@@ -24,7 +24,7 @@ public class Pelicula {
     private String genero;
     private LocalDate fechaEstreno;
 
-
+    //@Builder.Default
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "actores_peliculas",
             joinColumns = @JoinColumn(name="pelicula_id", referencedColumnName = "id"),

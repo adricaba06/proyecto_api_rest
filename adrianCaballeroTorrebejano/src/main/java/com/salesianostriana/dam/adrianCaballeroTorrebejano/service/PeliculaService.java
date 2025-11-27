@@ -114,7 +114,7 @@ public class PeliculaService {
         List<Pelicula> lista = peliculaRepository.findAll();
         Set<Pelicula> setOfPeliculas = new HashSet<>(lista);
 
-        if (setOfPeliculas.isEmpty()) { // devuelvo la exception o un set vacio?
+        if (setOfPeliculas.isEmpty()) {
             throw new EntityNotFoundException("No hay ninguna entidad");
         }
 
