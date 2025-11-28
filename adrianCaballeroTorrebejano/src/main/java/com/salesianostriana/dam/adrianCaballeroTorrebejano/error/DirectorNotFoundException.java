@@ -6,7 +6,7 @@ public class DirectorNotFoundException extends EntityNotFoundException {
     }
 
     public DirectorNotFoundException(Long id){
-        super("Director con id: %id no encontrado".formatted(id));
+        super("Director con id: %d no encontrado".formatted(id));
     }
 
 }

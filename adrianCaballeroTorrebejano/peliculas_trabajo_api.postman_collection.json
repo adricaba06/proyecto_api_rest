@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "ce8067c6-8987-4f14-809e-8430d4f9dce5",
+		"name": "peliculas_trabajo_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42458114"
+	},
+	"item": [
+		{
+			"name": "peliculas",
+			"item": [
+				{
+					"name": "getAllPeliculas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPeliculaById200",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePelicula200",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"El Padrino\",\r\n  \"genero\": \"Drama\",\r\n  \"fechaEstreno\": \"2022-03-24\",\r\n  \"directorId\": 1,\r\n  \"actoresId\": [1, 2, 12]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/peliculas/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePelicula",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addActorToPelicula409",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/peliculas/2/actores/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas",
+								"2",
+								"actores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPelicula200",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"Pelicula nueva\",\r\n  \"genero\": \"Drama\",\r\n  \"fechaEstreno\": \"2022-03-24\",\r\n  \"directorId\": 1,\r\n  \"actoresId\": [1, 2]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/peliculas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"peliculas"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Director",
+			"item": [
+				{
+					"name": "getAllDirectores",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"Pelicula nueva\",\r\n  \"genero\": \"Drama\",\r\n  \"fechaEstreno\": \"2022-03-24\",\r\n  \"directorId\": 1,\r\n  \"actoresId\": [1, 2]\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/directores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"directores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDirectorById200",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"titulo\": \"Pelicula nueva\",\r\n  \"genero\": \"Drama\",\r\n  \"fechaEstreno\": \"2022-03-24\",\r\n  \"directorId\": 1,\r\n  \"actoresId\": [1, 2]\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/directores/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"directores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteDirectorById204",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/directores/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"directores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createDirector201",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Christopher Nolan\",\r\n  \"anioNacimiento\": 2014\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/directores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"directores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDirector200",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Christopher Nolann\",\r\n  \"anioNacimiento\": 2045\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/directores/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"directores",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "actores",
+			"item": [
+				{
+					"name": "getAllActores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createActor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     {\r\n        \"nombre\" : \"Sabrina Carpenter\"\r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/actores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

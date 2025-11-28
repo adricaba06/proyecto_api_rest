@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("directores")
 @RequiredArgsConstructor
+@Tag(name = "Director", description = "El controlador de director, para poder realizar todas las operaciones de gestión")
 public class DirectorController {
 
     private final DirectorService directorService;
@@ -110,7 +112,7 @@ public class DirectorController {
     @PostMapping
     @Operation(
             summary = "Crea un nuevo director",
-            description = "crea un director con los datos proporcionados."
+            description = "crea un director con los datos dados."
     )
     @ApiResponses({
             @ApiResponse(
@@ -216,7 +218,6 @@ public class DirectorController {
                             schema = @Schema(implementation = ProblemDetail.class),
                             examples = @ExampleObject("""
                                 {
-                                  "type": "http://dam.salesianos-triana.com/director-has-movies",
                                   "title": "No se puede eliminar el director",
                                   "status": 409,
                                   "detail": "El director con id 1 tiene películas asociadas",

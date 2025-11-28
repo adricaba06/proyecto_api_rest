@@ -11,8 +11,11 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("actores")
 @RequiredArgsConstructor
+@Tag(name = "Actor", description = "El controlador de actor, para poder crear y listar")
 public class ActorController {
 
     private final ActorService actorService;
@@ -66,7 +70,7 @@ public class ActorController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "201",
+                    responseCode = "200",
                     description = "Actor creado correctamente",
                     content = @Content(
                             mediaType = "application/json",
@@ -86,8 +90,11 @@ public class ActorController {
                     content = @Content(schema = @Schema(implementation = ProblemDetail.class))
             )
     })
-    public Actor createActor(@RequestBody ActorRequestDTO req) {
-        return actorService.saveActor(req);
+    public ResponseEntity<ActorResponseDTO> createActor(@RequestBody ActorRequestDTO req) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(actorService.maptoDto(
+                        actorService.saveActor(req)
+                ));
     }
 
 

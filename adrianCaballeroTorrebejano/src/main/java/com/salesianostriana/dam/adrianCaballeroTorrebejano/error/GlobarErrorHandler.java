@@ -48,6 +48,24 @@ public class GlobarErrorHandler {
         return result;
     }
 
+    @ExceptionHandler(ActorBadRequestException.class)
+    public ProblemDetail handleActorBadRequest(ActorBadRequestException ex){
+        ProblemDetail result = ProblemDetail
+                .forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                        ex.getMessage());
+        result.setTitle("No existe ese actor");
+        return result;
+    }
+
+    @ExceptionHandler(AnioInvalidoException.class)
+    public ProblemDetail handleAnioInvalidoException(AnioInvalidoException ex){
+        ProblemDetail result = ProblemDetail
+                .forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                        ex.getMessage());
+        result.setTitle("Año invalido");
+        return result;
+    }
+
 
 
 

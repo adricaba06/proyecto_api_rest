@@ -4,7 +4,6 @@ package com.salesianostriana.dam.adrianCaballeroTorrebejano.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +19,7 @@ public class Director {
     private Long id;
 
     private String nombre;
-    private int anioNacieminto;
+    private int anioNacimiento;
 
     @OneToMany(mappedBy = "director",  cascade = CascadeType.REMOVE)
     private Set<Pelicula> peliculas;

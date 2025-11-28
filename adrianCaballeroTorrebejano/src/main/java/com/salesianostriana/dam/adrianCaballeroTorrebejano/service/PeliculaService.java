@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +34,7 @@ public class PeliculaService {
     public Pelicula mapToEntity(PeliculaRequestDTO req) {
 
         Director director = directorRepository.findById(req.directorId())
-                .orElseThrow(() -> new DirectorNotFoundException(req.directorId()));
+                .orElseThrow(() -> new DirectorBadRequestException(req.directorId()));
 
         /*Set<Actor> actores = new HashSet<>();
         actorRepository.findAllById(req.actoresId()).forEach(actor -> actores.add(actor));*/
@@ -43,7 +42,7 @@ public class PeliculaService {
         Set<Actor> actores = req.actoresId()
                 .stream()
                 .map(id -> actorRepository.findById(id)
-                        .orElseThrow(() -> new ActorNotFoundException(id))).collect(Collectors.toSet());
+                        .orElseThrow(() -> new ActorBadRequestException(id))).collect(Collectors.toSet());
 
         return Pelicula.builder()
                 .titulo(req.titulo())
@@ -80,11 +79,11 @@ public class PeliculaService {
         int estreno;
         int edadEnEstreno;
         Director director = directorRepository.findById(req.directorId())
-                .orElseThrow(() -> new DirectorNotFoundException(req.directorId()));
+                .orElseThrow(() -> new DirectorBadRequestException(req.directorId()));
 
          estreno = req.fechaEstreno().getYear();
 
-         edadEnEstreno = estreno - director.getAnioNacieminto();
+         edadEnEstreno = estreno - director.getAnioNacimiento();
 
         if (edadEnEstreno < 18) {
             throw new DirectorIsAMinorException(req.directorId());
@@ -151,7 +150,7 @@ public class PeliculaService {
     public Pelicula updatePelicula(Long id, PeliculaRequestDTO req) {
 
         Director director = directorRepository.findById(req.directorId())
-                .orElseThrow(() -> new DirectorNotFoundException(req.directorId()));
+                .orElseThrow(() -> new DirectorBadRequestException(req.directorId()));
 
         Set<Actor> actores = actorRepository.findAllById(req.actoresId())
                 .stream().collect(Collectors.toSet());
@@ -160,7 +159,7 @@ public class PeliculaService {
         validateAge(req);
 
         if (actores.size() != req.actoresId().size()) {
-            throw new ActorNotFoundException("Alguno de los actores no existe");
+            throw new ActorBadRequestException("Alguno de los actores no existe");
         }
 
         return peliculaRepository.findById(id).map(p -> {
@@ -194,7 +193,7 @@ public class PeliculaService {
                 .orElseThrow(() -> new PeliculaNotFoundException(idPelicula));
 
         Actor actor = actorRepository.findById(idActor)
-                .orElseThrow(() -> new ActorNotFoundException(idActor));
+                .orElseThrow(() -> new ActorBadRequestException(idActor));
 
         if (pelicula.getActores().contains(actor)) { //los set no trabajan con indice, por ello he utilizado .conatains
             throw new ActorAlreadyInCastException(idActor);

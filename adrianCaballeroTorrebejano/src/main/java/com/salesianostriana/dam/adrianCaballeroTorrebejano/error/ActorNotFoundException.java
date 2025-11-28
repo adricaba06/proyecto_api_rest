@@ -6,7 +6,7 @@ public class ActorNotFoundException extends EntityNotFoundException {
     }
 
     public ActorNotFoundException(Long id){
-        super("Actor con id: %id no encontrado".formatted(id));
+        super("Actor con id: %d no encontrado".formatted(id));
     }
 
 

@@ -2,26 +2,18 @@ package com.salesianostriana.dam.adrianCaballeroTorrebejano.service;
 
 import com.salesianostriana.dam.adrianCaballeroTorrebejano.dto.DirectorRequestDTO;
 import com.salesianostriana.dam.adrianCaballeroTorrebejano.dto.DirectorResponseDTO;
-import com.salesianostriana.dam.adrianCaballeroTorrebejano.dto.PeliculaRequestDTO;
-import com.salesianostriana.dam.adrianCaballeroTorrebejano.error.ActorNotFoundException;
+import com.salesianostriana.dam.adrianCaballeroTorrebejano.error.AnioInvalidoException;
 import com.salesianostriana.dam.adrianCaballeroTorrebejano.error.DirectorNotFoundException;
-import com.salesianostriana.dam.adrianCaballeroTorrebejano.model.Actor;
 import com.salesianostriana.dam.adrianCaballeroTorrebejano.model.Director;
-import com.salesianostriana.dam.adrianCaballeroTorrebejano.model.Pelicula;
 import com.salesianostriana.dam.adrianCaballeroTorrebejano.repository.DirectorRepository;
-import com.salesianostriana.dam.adrianCaballeroTorrebejano.repository.PeliculaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -34,7 +26,7 @@ public class DirectorService {
     public Director mapToEntity(DirectorRequestDTO req) {
         return Director.builder()
                 .nombre(req.nombre())
-                .anioNacieminto(req.anioNacimiento())
+                .anioNacimiento(req.anioNacimiento())
                 .build();
     }
 
@@ -42,7 +34,7 @@ public class DirectorService {
         return new DirectorResponseDTO(
                 director.getId(),
                 director.getNombre(),
-                director.getAnioNacieminto()
+                director.getAnioNacimiento()
         );
     }
 
@@ -52,7 +44,7 @@ public class DirectorService {
         currentYear = LocalDate.now().getYear();
 
         if (req.anioNacimiento() <= 0 || req.anioNacimiento() > currentYear) {
-            throw new IllegalArgumentException("El año no es válido");
+            throw new AnioInvalidoException("El año no es válido");
 
         }
     }
@@ -91,7 +83,7 @@ public class DirectorService {
 
         return directorRepository.findById(id).map(d -> {
                     d.setNombre(req.nombre());
-                    d.setAnioNacieminto(req.anioNacimiento());
+                    d.setAnioNacimiento(req.anioNacimiento());
                     return directorRepository.save(d);
                 }
 

@@ -218,7 +218,7 @@ public class PeliculaController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Película o actor no encontrado",
+                    description = "Película no encontrada",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class),
@@ -227,6 +227,23 @@ public class PeliculaController {
                                   "title": "Película o actor no encontrado",
                                   "status": 404,
                                   "detail": "No existe la película con id 5 o el actor con id 22",
+                                  "instance": "/pelicula/5/actores/22"
+                                }
+                                """)
+                    )
+            ),
+
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Actor no encontrado",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class),
+                            examples = @ExampleObject("""
+                                {
+                                  "title": "Actor no encontrado",
+                                  "status": 400,
+                                  "detail": "No existe Sel actor con id 22",
                                   "instance": "/pelicula/5/actores/22"
                                 }
                                 """)
