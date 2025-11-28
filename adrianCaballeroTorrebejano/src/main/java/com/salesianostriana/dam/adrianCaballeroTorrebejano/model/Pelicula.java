@@ -3,9 +3,11 @@ package com.salesianostriana.dam.adrianCaballeroTorrebejano.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -17,7 +19,7 @@ import java.util.Set;
 public class Pelicula {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String titulo;
@@ -33,7 +35,7 @@ public class Pelicula {
     private Set<Actor> actores;
 
     @ManyToOne
-    @JoinTable(name = "directror_id")
+    @JoinColumn(name = "director_id")
     private Director director;
 
 }

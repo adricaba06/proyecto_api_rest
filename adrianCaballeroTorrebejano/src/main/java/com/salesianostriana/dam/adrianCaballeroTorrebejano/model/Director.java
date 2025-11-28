@@ -1,10 +1,7 @@
 package com.salesianostriana.dam.adrianCaballeroTorrebejano.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -25,7 +22,7 @@ public class Director {
     private String nombre;
     private int anioNacieminto;
 
-    @OneToMany(mappedBy = "director")
+    @OneToMany(mappedBy = "director",  cascade = CascadeType.REMOVE)
     private Set<Pelicula> peliculas;
 
 }

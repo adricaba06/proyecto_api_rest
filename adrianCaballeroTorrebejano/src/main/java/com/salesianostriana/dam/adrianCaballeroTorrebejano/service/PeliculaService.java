@@ -55,8 +55,8 @@ public class PeliculaService {
     }
 
 
-    public PeliculaResponseDTO mapToResponseDTO(Pelicula pelicula){
-        DirectorSimpleDTO  directorSimpleDTO = new DirectorSimpleDTO(
+    public PeliculaResponseDTO mapToResponseDTO(Pelicula pelicula) {
+        DirectorSimpleDTO directorSimpleDTO = new DirectorSimpleDTO(
                 pelicula.getDirector().getId(), pelicula.getDirector().getNombre()
         );
 
@@ -74,25 +74,23 @@ public class PeliculaService {
                 directorSimpleDTO
         );
 
-
     }
 
-    public void validateAge(PeliculaRequestDTO req){
-
-        int currentYear;
-        int age;
-
-        Director director = directorRepository.findById(req.
-                directorId())
+    public void validateAge(PeliculaRequestDTO req) {
+        int estreno;
+        int edadEnEstreno;
+        Director director = directorRepository.findById(req.directorId())
                 .orElseThrow(() -> new DirectorNotFoundException(req.directorId()));
 
-        currentYear = LocalDate.now().getYear();
-        age = currentYear - director.getAnioNacieminto();
+         estreno = req.fechaEstreno().getYear();
 
-        if(age < 18){
+         edadEnEstreno = estreno - director.getAnioNacieminto();
+
+        if (edadEnEstreno < 18) {
             throw new DirectorIsAMinorException(req.directorId());
         }
     }
+
 
     public void validatePeliculaRequest(PeliculaRequestDTO req) {
 
@@ -106,7 +104,15 @@ public class PeliculaService {
             throw new IllegalArgumentException("No se pudo crear la películam, los datos estan incompletos");
         }
 
+    } // aqui es donde me aseguro de que el director entre ootras cosas no sea nulo
+    // Pelicula debe requerir el id de un Director existente.
+
+    public Set<ActorSimpleDTO> mapActores(Set<Actor> actores) {
+        return actores.stream()
+                .map(a -> new ActorSimpleDTO(a.getId(), a.getNombre()))
+                .collect(Collectors.toSet());
     }
+
 
     //crud
 
@@ -115,13 +121,13 @@ public class PeliculaService {
         Set<Pelicula> setOfPeliculas = new HashSet<>(lista);
 
         if (setOfPeliculas.isEmpty()) {
-            throw new EntityNotFoundException("No hay ninguna entidad");
+            throw new PeliculaNotFoundException("No hay ninguna entidad");
         }
 
         return setOfPeliculas;
     }
 
-    public Pelicula findPeliculaById(Long id){
+    public Pelicula findPeliculaById(Long id) {
         Pelicula pelicula = peliculaRepository.findById(id)
                 .orElseThrow(() -> new PeliculaNotFoundException(id));
 
@@ -131,14 +137,18 @@ public class PeliculaService {
     public Pelicula savePelicula(PeliculaRequestDTO req) {
         validatePeliculaRequest(req);
         validateAge(req);
+        peliculaRepository.findByTituloIgnoreCase(req.titulo())
+                .ifPresent(p -> {
+                    throw new PeliculaAlreadyExistException(p.getId());
+
+                });
 
         Pelicula pelicula = mapToEntity(req);
-        peliculaRepository.save(pelicula);
 
-        return pelicula;
+        return peliculaRepository.save(pelicula);
     }
 
-    public Pelicula updatePelicula(Long id,PeliculaRequestDTO req){
+    public Pelicula updatePelicula(Long id, PeliculaRequestDTO req) {
 
         Director director = directorRepository.findById(req.directorId())
                 .orElseThrow(() -> new DirectorNotFoundException(req.directorId()));
@@ -153,21 +163,21 @@ public class PeliculaService {
             throw new ActorNotFoundException("Alguno de los actores no existe");
         }
 
-        return peliculaRepository.findById(id).map(p ->{
-            p.setTitulo(req.titulo());
-            p.setGenero(req.genero());
-            p.setFechaEstreno(req.fechaEstreno());
-            p.setActores(actores);
-            p.setDirector(director);
+        return peliculaRepository.findById(id).map(p -> {
+                    p.setTitulo(req.titulo());
+                    p.setGenero(req.genero());
+                    p.setFechaEstreno(req.fechaEstreno());
+                    p.setActores(actores);
+                    p.setDirector(director);
 
-            return p; // map necsesita devolver algo
+                    return peliculaRepository.save(p);
 
-        })
+                })
                 .orElseThrow(() -> new PeliculaNotFoundException(id));
     }
 
 
-    public void deletePeliculaById(Long id){
+    public void deletePeliculaById(Long id) {
         Pelicula pelicula = peliculaRepository
                 .findById(id)
                 .orElseThrow(() -> new PeliculaNotFoundException(id));
@@ -175,6 +185,26 @@ public class PeliculaService {
         peliculaRepository.delete(pelicula);
     }
 
+    //asignacion
+
+    public Pelicula addActor(Long idPelicula, Long idActor) {
+
+        Pelicula pelicula = peliculaRepository
+                .findById(idPelicula)
+                .orElseThrow(() -> new PeliculaNotFoundException(idPelicula));
+
+        Actor actor = actorRepository.findById(idActor)
+                .orElseThrow(() -> new ActorNotFoundException(idActor));
+
+        if (pelicula.getActores().contains(actor)) { //los set no trabajan con indice, por ello he utilizado .conatains
+            throw new ActorAlreadyInCastException(idActor);
+
+        }
+
+        pelicula.getActores().add(actor);
+
+        return peliculaRepository.save(pelicula);
+    }
 
 
 }
